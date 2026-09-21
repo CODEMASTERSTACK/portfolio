@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Detail — Kripal Singh</title>
+  <meta name="description" content="Detailed LinkedIn post from Kripal Singh's writing archive.">
+  <meta name="theme-color" content="#fff9f1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Figtree:wght@300;400;500&family=Inter:wght@300;400&family=Roboto:wght@500;800&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400..600;1,400..600&family=Darker+Grotesque:wght@700&family=Bitter:ital,wght@1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    :root {
+      --detail-surface: rgba(255,255,255,0.7);
+      --detail-outline: rgba(6,6,6,0.08);
+      --detail-muted: rgba(0,0,0,0.6);
+      --detail-strong: rgba(0,0,0,0.9);
+      --detail-tag: rgba(255,218,63,0.2);
+    }
+
+    body.night {
+      --detail-surface: rgba(16,23,38,0.8);
+      --detail-outline: rgba(255,255,255,0.08);
+      --detail-muted: rgba(255,255,255,0.7);
+      --detail-strong: rgba(255,255,255,0.95);
+      --detail-tag: rgba(255,218,63,0.12);
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-heading);
+    }
+
+    .detail-page {
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+
+    .detail-shell {
+      width: min(880px, calc(100% - 30px));
+      margin: 0 auto;
+    }
+
+    .detail-card {
+      position: relative;
+      background: var(--detail-surface);
+      border: 1px solid var(--detail-outline);
+      border-radius: 30px;
+      box-shadow: 0 28px 70px rgba(12,18,38,0.08);
+      overflow: hidden;
+      padding: 30px 28px 40px;
+    }
+
+    .detail-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 160px;
+      background: radial-gradient(circle at top left, rgba(255,218,63,0.18), transparent 50%);
+      pointer-events: none;
+    }
+
+    .detail-meta,
+    .detail-body,
+    .detail-footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
+      color: var(--detail-muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .detail-meta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: inherit;
+      text-decoration: none;
+      border: 1px solid var(--detail-outline);
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
+
+    .detail-card h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.6rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+      margin: 0 0 20px;
+      max-width: 680px;
+    }
+
+    .detail-body {
+      color: var(--detail-muted);
+      font-size: 1.08rem;
+      line-height: 1.9;
+    }
+
+    .detail-body p + p {
+      margin-top: 18px;
+    }
+
+    .detail-summary {
+      display: grid;
+      gap: 16px;
+      padding: 20px 22px;
+      margin: 12px 0 26px;
+      border: 1px solid var(--detail-outline);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .detail-summary strong {
+      color: var(--detail-strong);
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .detail-summary p {
+      margin: 0;
+      line-height: 1.8;
+    }
+
+    .detail-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 30px;
+    }
+
+    .detail-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--detail-tag);
+      border: 1px solid rgba(255,218,63,0.22);
+      color: var(--detail-strong);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .detail-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-top: 20px;
+      border-top: 1px solid var(--detail-outline);
+    }
+
+    .detail-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--detail-strong);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .empty-error {
+      display: none;
+      text-align: center;
+      color: var(--detail-muted);
+      line-height: 1.8;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 680px) {
+      .detail-page {
+        padding-top: 100px;
+      }
+
+      .detail-card {
+        padding: 22px 18px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('theme') === 'night') {
+      document.body.classList.add('night');
+    }
+  </script>
+
+  <site-nav></site-nav>
+
+  <main class="detail-page">
+    <div class="detail-shell">
+      <article id="detail-card" class="detail-card" aria-live="polite">
+        <div class="detail-meta">
+          <span id="detail-date">LinkedIn</span>
+          <a id="detail-back" href="/post/">← Back to posts</a>
+        </div>
+        <h1 id="detail-title">Loading post…</h1>
+        <div id="detail-body" class="detail-body"></div>
+        <div id="detail-tags" class="detail-tags"></div>
+        <div class="detail-footer">
+          <a id="detail-external" href="#" target="_blank" rel="noopener noreferrer">View original post ↗</a>
+          <a href="/post/">Browse archive</a>
+        </div>
+      </article>
+      <p id="detail-empty" class="empty-error">This post could not be found. Head back to the archive and choose another entry.</p>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script src="/js/site.js" defer></script>
+  <script>
+    const fallbackPosts = [
+      {
+        id: 'linkedin-ugc-7411729201613053952',
+        slug: 'linkedin-ugc-7411729201613053952',
+        title: 'LinkedIn post 01',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        content: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-ugc-7411729201613053952',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7411729201613053952',
+        embed: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7411729201613053952',
+        height: 900,
+        width: 504
+      },
+      {
+        id: 'linkedin-share-7401088569663983616',
+        slug: 'linkedin-share-7401088569663983616',
+        title: 'LinkedIn post 02',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        content: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-share-7401088569663983616',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7401088569663983616',
+        embed: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7401088569663983616',
+        height: 888,
+        width: 504
+      },
+      {
+        id: 'linkedin-ugc-7330953389620486145',
+        slug: 'linkedin-ugc-7330953389620486145',
+        title: 'LinkedIn post 03',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        content: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-ugc-7330953389620486145',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7330953389620486145',
+        embed: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7330953389620486145',
+        height: 1464,
+        width: 504
+      },
+      {
+        id: 'linkedin-ugc-7191577280324780032',
+        slug: 'linkedin-ugc-7191577280324780032',
+        title: 'LinkedIn post 04',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        content: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-ugc-7191577280324780032',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7191577280324780032',
+        embed: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7191577280324780032',
+        height: 651,
+        width: 504
+      }
+    ];
+
+    function parseSlug() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('slug');
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      if (Number.isNaN(date.getTime())) return 'LinkedIn';
+      return new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
+    }
+
+    function renderPostBody(post) {
+      const summaryText = post.content || post.excerpt || 'A recent post from Kripal Singh.';
+      const paragraphs = String(summaryText)
+        .split(/\n+/)
+        .map(part => part.trim())
+        .filter(Boolean)
+        .slice(0, 3);
+
+      const summaryHtml = paragraphs.length
+        ? `<div class="detail-summary"><strong>Summary</strong>${paragraphs.map(paragraph => `<p>${paragraph}</p>`).join('')}</div>`
+        : '<div class="detail-summary"><strong>Summary</strong><p>A recent post from Kripal Singh.</p></div>';
+
+      if (post.embed) {
+        return `
+          ${summaryHtml}
+          <div style="display:flex; justify-content:center; margin: 8px 0 16px;">
+            <iframe
+              src="${post.embed}"
+              height="${post.height || 900}"
+              width="${post.width || 504}"
+              frameborder="0"
+              allowfullscreen=""
+              loading="lazy"
+              title="Embedded post"
+              style="max-width:100%; border-radius: 16px; background: transparent;"
+            ></iframe>
+          </div>
+        `;
+      }
+
+      return summaryHtml;
+    }
+
+    async function loadPost() {
+      const slug = parseSlug();
+      const titleEl = document.getElementById('detail-title');
+      const bodyEl = document.getElementById('detail-body');
+      const dateEl = document.getElementById('detail-date');
+      const tagEl = document.getElementById('detail-tags');
+      const externalEl = document.getElementById('detail-external');
+      const emptyEl = document.getElementById('detail-empty');
+
+      try {
+        const response = await fetch('/.netlify/functions/linkedin-posts');
+        const data = await response.json();
+        const posts = Array.isArray(data && data.posts) ? data.posts : fallbackPosts;
+        const post = posts.find(item => (item.slug || item.id || '').toLowerCase() === String(slug || '').toLowerCase()) || fallbackPosts.find(item => (item.slug || item.id || '').toLowerCase() === String(slug || '').toLowerCase()) || fallbackPosts[0];
+
+        if (!post) {
+          emptyEl.style.display = 'block';
+          return;
+        }
+
+        titleEl.textContent = post.title || 'LinkedIn post';
+        dateEl.textContent = formatDate(post.date || new Date());
+        bodyEl.innerHTML = renderPostBody(post);
+
+        tagEl.innerHTML = (post.tags || []).map(tag => `<span class="detail-tag">${tag}</span>`).join('');
+        externalEl.href = post.externalHref || post.href || 'https://www.linkedin.com/';
+      } catch (error) {
+        const post = fallbackPosts.find(item => (item.slug || item.id || '').toLowerCase() === String(slug || '').toLowerCase()) || fallbackPosts[0];
+        titleEl.textContent = post.title || 'LinkedIn post';
+        dateEl.textContent = formatDate(post.date || new Date());
+        bodyEl.innerHTML = renderPostBody(post);
+
+        tagEl.innerHTML = (post.tags || []).map(tag => `<span class="detail-tag">${tag}</span>`).join('');
+        externalEl.href = post.externalHref || post.href || 'https://www.linkedin.com/';
+      }
+    }
+
+    loadPost();
+  </script>
+</body>
+</html>

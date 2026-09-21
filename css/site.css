@@ -1528,7 +1528,7 @@
       .nav-pill  { display: contents; }   /* no glass; children flow into #nav */
       .nav-links { display: contents; }
       .nav-id, .avail-tag, .avail-dot, .nav-wave { display: none; }  /* drop avatar + music */
-      .nav-link { display: none; }        /* Work/About/Playground live in the overlay */
+      .nav-link { display: none; }        /* Work/About live in the overlay */
 
       #nav { gap: 10px; }
 
@@ -1659,7 +1659,7 @@ body.night #page-loader { background: var(--c-night); }
 #page-loader.is-hiding { opacity: 0; pointer-events: none; }
 
 /* ════════════════════════════════════════════════════════════════════════
-   ROUTE CURTAIN — page transition between Home / About / Playground.
+   ROUTE CURTAIN — page transition between Home and About.
    Two panes (each 100vw × 50vh) close to cover, the route swaps behind them,
    then they open (top up / bottom down) revealing the new page while its
    content fades in. Theme-aware fill via var(--bg-base) (same token as the

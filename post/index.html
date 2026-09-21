@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Posts — Kripal Singh</title>
+  <meta name="description" content="A beautifully structured archive of Kripal Singh's LinkedIn posts on product design, engineering, and building digital experiences.">
+  <meta name="theme-color" content="#fff9f1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Figtree:wght@300;400;500&family=Inter:wght@300;400&family=Roboto:wght@500;800&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400..600;1,400..600&family=Darker+Grotesque:wght@700&family=Bitter:ital,wght@1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+  <style>
+    :root {
+      --posts-shell: rgba(255, 255, 255, 0.4);
+      --posts-outline: rgba(6, 6, 6, 0.08);
+      --posts-surface: rgba(255, 255, 255, 0.72);
+      --posts-surface-strong: rgba(255, 255, 255, 0.86);
+      --posts-shadow: 0 28px 80px rgba(16, 19, 33, 0.08);
+      --posts-tag-bg: rgba(255, 218, 63, 0.18);
+      --posts-muted: rgba(0, 0, 0, 0.58);
+      --posts-link: #0d1d36;
+    }
+
+    body.night {
+      --posts-shell: rgba(13, 18, 30, 0.55);
+      --posts-outline: rgba(255, 255, 255, 0.08);
+      --posts-surface: rgba(16, 23, 38, 0.8);
+      --posts-surface-strong: rgba(17, 27, 40, 0.92);
+      --posts-shadow: 0 28px 80px rgba(6, 8, 14, 0.44);
+      --posts-tag-bg: rgba(255, 218, 63, 0.12);
+      --posts-muted: rgba(255, 255, 255, 0.7);
+      --posts-link: #f0f5ff;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-heading);
+      min-height: 100vh;
+    }
+
+    .posts-page {
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+
+    .posts-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .posts-hero {
+      position: relative;
+      display: grid;
+      gap: 22px;
+      padding: 32px 26px 26px;
+      margin-bottom: 30px;
+      border: 1px solid var(--posts-outline);
+      background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.18));
+      box-shadow: var(--posts-shadow);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .posts-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top left, rgba(255, 218, 63, 0.18), transparent 40%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 12px;
+      border: 1px solid var(--posts-outline);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.2);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--posts-muted);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--c-gold);
+      box-shadow: 0 0 0 6px rgba(255, 218, 63, 0.22);
+    }
+
+    .posts-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .posts-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.06em;
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: 0.95;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .posts-header p {
+      max-width: 580px;
+      color: var(--posts-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .post-count {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 128px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--posts-outline);
+      background: var(--posts-surface-strong);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--posts-muted);
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .post-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      padding: 20px 20px 18px;
+      background: var(--posts-surface);
+      border: 1px solid var(--posts-outline);
+      border-radius: 22px;
+      box-shadow: var(--posts-shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .post-card:hover,
+    .post-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(255, 218, 63, 0.45);
+      box-shadow: 0 28px 72px rgba(16, 19, 33, 0.12);
+      outline: none;
+    }
+
+    .post-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 10px;
+    }
+
+    .post-month {
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--posts-muted);
+    }
+
+    .post-arrow {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 218, 63, 0.18);
+      border: 1px solid rgba(255, 218, 63, 0.35);
+      color: var(--posts-link);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .post-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.45rem, 2vw, 2rem);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      margin: 0 0 14px;
+      font-weight: 600;
+    }
+
+    .post-card p {
+      margin: 0 0 18px;
+      color: var(--posts-muted);
+      line-height: 1.75;
+      font-size: 0.98rem;
+    }
+
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--posts-tag-bg);
+      border: 1px solid rgba(255, 218, 63, 0.18);
+      color: var(--posts-link);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .empty-state {
+      display: none;
+      width: min(640px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px dashed rgba(255, 218, 63, 0.45);
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--posts-muted);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 980px) {
+      .posts-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .posts-page {
+        padding-top: 100px;
+      }
+
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .posts-hero {
+        padding: 22px 18px 18px;
+      }
+
+      .posts-header {
+        align-items: flex-start;
+      }
+
+      .post-count {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('theme') === 'night') {
+      document.body.classList.add('night');
+    }
+  </script>
+
+  <site-nav></site-nav>
+
+  <main class="posts-page">
+    <div class="posts-shell">
+      <header class="posts-hero">
+        <span class="eyebrow">Writing</span>
+        <div class="posts-header">
+          <h1>LinkedIn posts</h1>
+          <span class="post-count" id="post-count">0 posts</span>
+        </div>
+        <p>Notes on product thinking, design systems, product strategy, and the practical craft of building digital experiences that feel clear, confident, and human.</p>
+      </header>
+
+      <section aria-live="polite">
+        <div id="posts-grid" class="posts-grid"></div>
+        <div id="empty-state" class="empty-state">
+          The feed is taking a quick pause. Add your LinkedIn environment variables in Netlify and the page will load the live posts automatically.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script src="/js/site.js" defer></script>
+  <script>
+    const fallbackPosts = [
+      {
+        id: 'linkedin-ugc-7411729201613053952',
+        slug: 'linkedin-ugc-7411729201613053952',
+        title: 'LinkedIn post 01',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-ugc-7411729201613053952',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7411729201613053952'
+      },
+      {
+        id: 'linkedin-share-7401088569663983616',
+        slug: 'linkedin-share-7401088569663983616',
+        title: 'LinkedIn post 02',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-share-7401088569663983616',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7401088569663983616'
+      },
+      {
+        id: 'linkedin-ugc-7330953389620486145',
+        slug: 'linkedin-ugc-7330953389620486145',
+        title: 'LinkedIn post 03',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-ugc-7330953389620486145',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7330953389620486145'
+      },
+      {
+        id: 'linkedin-ugc-7191577280324780032',
+        slug: 'linkedin-ugc-7191577280324780032',
+        title: 'LinkedIn post 04',
+        date: '2025-01-01',
+        excerpt: 'Embedded LinkedIn post from the user profile.',
+        tags: ['LinkedIn', 'Post'],
+        href: '/post/detail.html?slug=linkedin-ugc-7191577280324780032',
+        externalHref: 'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7191577280324780032'
+      }
+    ];
+
+    const cardTitleOverrides = {
+      'linkedin-ugc-7411729201613053952': 'Building a local communication fabric',
+      'linkedin-share-7401088569663983616': 'Designing resilient local networking',
+      'linkedin-ugc-7330953389620486145': 'Making systems easier to maintain over time',
+      'linkedin-ugc-7191577280324780032': 'Shipping systems with clarity and intent'
+    };
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      if (Number.isNaN(date.getTime())) return 'Recent';
+      return new Intl.DateTimeFormat('en', {
+        month: 'short',
+        year: 'numeric'
+      }).format(date);
+    }
+
+    function renderPosts(posts) {
+      const grid = document.getElementById('posts-grid');
+      const count = document.getElementById('post-count');
+      const empty = document.getElementById('empty-state');
+
+      if (!Array.isArray(posts) || !posts.length) {
+        empty.style.display = 'block';
+        count.textContent = '0 posts';
+        grid.innerHTML = '';
+        return;
+      }
+
+      empty.style.display = 'none';
+      count.textContent = `${posts.length} post${posts.length === 1 ? '' : 's'}`;
+      grid.innerHTML = posts.map(post => {
+        const href = post.href || post.externalHref || '#';
+        const target = post.href ? '_self' : '_blank';
+        const rel = post.href ? '' : 'noopener noreferrer';
+        const displayTitle = cardTitleOverrides[post.id] || cardTitleOverrides[post.slug] || post.title || 'LinkedIn post';
+
+        return `
+          <a class="post-card" href="${href}" target="${target}" rel="${rel}" aria-label="Open LinkedIn post: ${displayTitle}">
+            <div class="post-card-top">
+              <span class="post-month">${formatDate(post.date || new Date())}</span>
+              <span class="post-arrow" aria-hidden="true">↗</span>
+            </div>
+            <h2>${displayTitle}</h2>
+            <p>${post.excerpt || 'A thought from the product and design journey.'}</p>
+            <div class="post-tags">
+              ${(post.tags || []).slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    async function loadPosts() {
+      try {
+        const response = await fetch('/.netlify/functions/linkedin-posts', {
+          headers: { Accept: 'application/json' }
+        });
+
+        if (!response.ok) throw new Error('Unable to load posts');
+
+        const data = await response.json();
+        const posts = Array.isArray(data && data.posts) ? data.posts : fallbackPosts;
+        renderPosts(posts);
+      } catch (error) {
+        renderPosts(fallbackPosts);
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>

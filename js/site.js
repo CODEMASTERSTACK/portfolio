@@ -39,7 +39,7 @@ const NAV_HTML = `
       <div class="nav-links" id="nav-links-group">
         <a href="/#work" class="nav-link">Work</a>
         <a href="/about" class="nav-link">About</a>
-        <a href="/playground" class="nav-link">Playground</a>
+        <a href="/post/" class="nav-link">Posts</a>
         <a href="/#contact" class="nav-cta" data-contact-open>
           <img src="/assets/imgEmail.svg" alt="" width="24" height="24">
           Work with me
@@ -86,7 +86,7 @@ const MENU_HTML = `
       <ul class="menu-links">
         <li><a href="/#work" class="menu-link"><span class="num">01</span><span class="word">Work</span></a></li>
         <li><a href="/about" class="menu-link"><span class="num">02</span><span class="word">About</span></a></li>
-        <li><a href="/playground" class="menu-link"><span class="num">03</span><span class="word">Playground</span></a></li>
+        <li><a href="/post/" class="menu-link"><span class="num">03</span><span class="word">Posts</span></a></li>
       </ul>
     </nav>
     <p class="menu-footer">India</p>
@@ -333,6 +333,7 @@ function initNavMusic() {
 }
 
 function initNavScroll() {
+  if (!window.Scroll) return;
   const nav = document.getElementById('nav');
   if (!nav) return;
   const navPill = document.getElementById('nav-pill');
@@ -363,6 +364,7 @@ function initNavScroll() {
    a section can force the result with data-nav="dark" | "light". Sets
    #nav.nav-on-dark (light text) / #nav.nav-on-light (dark text). */
 function initNavContrast() {
+  if (!window.Scroll) return;
   const nav = document.getElementById('nav');
   if (!nav) return;
 
@@ -484,6 +486,7 @@ function initMenu() {
 }
 
 function initFooterGrow() {
+      if (!window.Scroll) return;
       const head = document.querySelector('.ft-head');
       if (!head) return;
 
@@ -915,9 +918,9 @@ function initReveal(root) {
 
 /* ════ LOADING SCREEN controller (markup lives at top of <body> in index.html) ══
    Pac-Man chomps 4 dots while assets settle. Shown on the cold load and when
-   entering the heavy instant-swap views (Playground, About). Hides the instant
-   the gated assets are ready, but never before a min (no flash) and never past a
-   hard cap (never traps the user). Exposed as window.pageLoader for the router. */
+   entering the heavy instant-swap views (About). Hides the instant the gated
+   assets are ready, but never before a min (no flash) and never past a hard cap
+   (never traps the user). Exposed as window.pageLoader for the router. */
 const LOADER_LINES = [
   'Waka waka… almost there.',
   'Chomping through the pixels…',

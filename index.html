@@ -6,9 +6,9 @@
   <!-- favicon: square head crop of the same portrait the nav avatar uses. Declaring
        these is also what stops the browser's automatic /favicon.ico probe, which had
        nothing to serve and 404'd on every page load. -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="180x180" href="/assets/favicon-180.png">
-  <link rel="apple-touch-icon" href="/assets/favicon-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/avatar.jpeg">
+  <link rel="icon" type="image/png" sizes="180x180" href="/assets/avatar.jpeg">
+  <link rel="apple-touch-icon" href="/assets/avatar.jpeg">
 
   <!--SEO:START-->
   <title>Kripal Singh — Software Engineer based in India.</title>
@@ -20,7 +20,7 @@
   <meta property="og:title" content="Kripal Singh">
   <meta property="og:description" content="Independent developer and designer in India — a developer who plans first.">
   <meta property="og:url" content="https://Yesiamkrish.netlify.app">
-  <meta property="og:image" content="https://zainabkabira.com/assets/og-card.jpg">
+  <meta property="og:image" content="https://Yesiamkrish.netlify.app/assets/avatar.jpeg">
   <meta property="og:image:width" content="2400">
   <meta property="og:image:height" content="1260">
   <meta property="og:image:alt" content="Kripal Singh — Software Engineer, India">
@@ -28,26 +28,36 @@
   <meta name="twitter:title" content="Kripal Singh — Software Engineer in India">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Person","@id":"https://zainabkabira.com/#person","name":"Kripal Singh",
+    {"@type":"Person","@id":"https://Yesiamkrish.netlify.app/#person","name":"Kripal Singh",
      "jobTitle":"Sofware Engineer","url":"https://yesiamkrish.netlify.app",
-     "image":"https://yesiamkrish.netlify.app/assets/imgProfilePicture.svg",
+     "image":"https://yesiamkrish.netlify.app/assets/avatar.jpeg",
      "address":{"@type":"PostalAddress","addressLocality":"India","addressRegion":"India","addressCountry":"India"},
      "sameAs":["http://www.linkedin.com/in/Kripal-singhh/","https://github.com/CODEMASTERSTACK"],
      "knowsAbout":["Sotware Design","Design systems","Generative UI","Flutter","Prototyping"],
      "description":"Independent developer in India — a developer who Plans first."},
-    {"@type":"WebSite","@id":"https://yesiamkrish.netlify.app/#website","url":"yesiamkrish.netlify.app",
+    {"@type":"WebSite","@id":"https://yesiamkrish.netlify.app/#website","url":"https://yesiamkrish.netlify.app",
      "name":"Kripal Singh - Software Engineer","publisher":{"@id":"https://yesiamkrish.netlify.app"}}]}
   </script>
   <!--SEO:END-->
 
   <script>
+    /* Prevent browser history from restoring a stale scroll position on a fresh
+       home load; the portfolio is intentionally designed to open at the top of the
+       hero, not in the middle of the work section after a previous route. */
+    history.scrollRestoration = 'manual';
+    window.addEventListener('load', function () {
+      if (window.scrollY > 0) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    });
+
     /* ── path router shim ── real URLs (/about, /work/hatcha …) drive the same
        hash-token router the site shipped with: token() maps the current path back
        to its legacy '#token', go() pushes the new path and re-fires 'hashchange'
        so every existing listener (curtain, hero morph, decks, nav contrast)
        keeps working unchanged. In-page anchors (#work, #contact) stay real hashes. */
     window.route = (function () {
-      var P2H = { '/about': '#about', '/playground': '#playground',
+      var P2H = { '/about': '#about',
                   '/work/hatcha': '#hatcha', '/work/fireflut': '#fireflut',
                   '/work/existence': '#existence', '/work/jumpable': '#jumpable' };
       var H2P = {}; Object.keys(P2H).forEach(function (p) { H2P[P2H[p]] = p; });
@@ -1121,6 +1131,13 @@
       font-size: 16px;
       line-height: normal;
       color: #000;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: opacity 0.2s ease;
+    }
+    .t-role:hover,
+    .t-role:focus-visible {
+      opacity: 0.75;
     }
 
     /* scrub zone — adds scroll length while the testimonials section is pinned, so
@@ -2479,20 +2496,6 @@
     body.route-about .testimonials,
     body.route-about .t-scrub { display: none !important; }
 
-    /* ═══════════════════════════════════════════════════════════════
-       PLAYGROUND PAGE (Figma node 128:6061) — in-page view, routed via
-       #playground exactly like About. Uniform brick grid: every tile is
-       the same size (3-column even grid); the note fills a 2-wide brick.
-       ═══════════════════════════════════════════════════════════════ */
-    body.route-playground .hero,
-    body.route-playground .projects,
-    body.route-playground .featured-work,
-    body.route-playground .testimonials,
-    body.route-playground .t-scrub { display: none !important; }
-
-    #playground-view { display: contents; }
-    #playground-view[hidden] { display: none; }
-
     /* — Work / Hatcha case study: routed via #hatcha, hides landing sections — */
     body.route-hatcha .hero,
     body.route-hatcha .projects,
@@ -2532,291 +2535,7 @@
     /* first project tile is a link to the case study */
     a.project-tile { display: block; text-decoration: none; color: inherit; }
 
-    /* frame: tiles start at y141 on the 1440 design; content column is
-       1336 wide (x50 → x1386) with 16px gutters between tiles */
-    .playground {
-      background: var(--bg-base);
-      padding: 141px 32px 200px;          /* bottom pad so the footer eases over, not abruptly */
-      position: relative;                 /* JS bottom-pins it (sticky) so the footer scrolls over */
-      z-index: 1;                         /* below the footer (z-index 12) so it laps over */
-      overflow-x: clip;                   /* contains the full-bleed immersive gallery; no page scroll */
-    }
-    .pg-grid {
-      max-width: 1720px;                   /* wider cap → larger tiles on roomy screens */
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;                           /* more breathing room between tiles */
-    }
-    /* intro band above the staggered field — header and paragraph side by side */
-    .pg-intro {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);  /* mirror the tile columns */
-      gap: 32px;                              /* match tile gutters so edges line up */
-      align-items: start;
-      margin-bottom: 8px;
-      font-size: 16px;
-      line-height: 30px;
-      color: var(--text-heading);
-    }
-    .pg-intro h2 {
-      grid-column: 1;                      /* sits over the first tile column */
-      font-family: 'DM Serif Display', serif;
-      font-weight: 400;
-      font-size: 40px;                     /* matches About's .ai-heading */
-      line-height: 1.358;
-      margin: 0;
-      color: var(--text-heading);
-    }
-    .pg-intro p { grid-column: 2 / 4; margin: 0; }  /* aligns with tile columns 2 & 3 */
-    .pg-tile {
-      /* --pg-offset = the running-bond stagger (per column, below).
-         --reveal = scroll-scrub 0→1 (JS), scaling the tile up to full size as
-         it enters the viewport — same treatment as the home project tiles. */
-      --pg-offset: 0px;
-      --reveal: 1;
-      position: relative;
-      border-radius: 40px;
-      overflow: hidden;
-      background: var(--c-ink);           /* dark base while video buffers */
-      aspect-ratio: 4 / 3;                 /* uniform brick — all tiles identical */
-      transform: translateY(var(--pg-offset)) scale(calc(0.5 + 0.5 * var(--reveal)));
-      transform-origin: center center;
-      opacity: calc(0.35 + 0.65 * var(--reveal));
-      will-change: transform, opacity;
-      cursor: pointer;
-      box-shadow: inset 0 0 0 0 #323131;   /* hover ring grows in (matches home) */
-      transition: box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .pg-tile:hover { box-shadow: inset 0 0 0 1px #323131; }
-    .pg-tile video,
-    .pg-tile img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* hover overlay — blurred scrim + label, fades in (mirrors home .tile-overlay) */
-    .pg-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 1;                          /* above the video so the ring/label show */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 24px;
-      text-align: center;
-      backdrop-filter: blur(7.7px);
-      -webkit-backdrop-filter: blur(7.7px);
-      background: var(--overlay-scrim);
-      opacity: 0;
-      transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .pg-tile:hover .pg-overlay { opacity: 1; }
-    .pg-overlay-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 400;
-      font-size: 28px;
-      letter-spacing: -1.12px;
-      line-height: 1.2;
-      text-transform: uppercase;
-      color: var(--text-contrast);
-      margin: 0;
-    }
-    .pg-overlay-sub {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 400;
-      font-size: 16px;
-      letter-spacing: -0.4px;
-      color: var(--text-contrast);
-      margin: 0;
-    }
-    /* the stagger: push the 2nd and 3rd columns down so the rows interlock
-       (running-bond brick). nth-of-type counts only the <figure> tiles, so
-       the full-width intro band above doesn't shift the column cycle. */
-    .pg-tile:nth-of-type(3n+2) { --pg-offset: 136px; }
-    .pg-tile:nth-of-type(3n+3) { --pg-offset: 68px; }
-
-    @media (max-width: 900px) {
-      .playground { padding: 112px 20px 140px; }
-      .pg-grid { grid-template-columns: repeat(2, 1fr); }
-      .pg-intro { grid-template-columns: 1fr; gap: 16px; }        /* stack header over para */
-      .pg-intro h2, .pg-intro p { grid-column: auto; }           /* full width once stacked */
-      .pg-tile:nth-of-type(3n+2),
-      .pg-tile:nth-of-type(3n+3) { --pg-offset: 0px; }           /* reset 3-col stagger */
-      .pg-tile:nth-of-type(2n) { --pg-offset: 64px; }            /* offset the right column */
-    }
-    @media (max-width: 560px) {
-      .playground { padding: 112px 20px 96px; }
-      .pg-grid { grid-template-columns: 1fr; }
-      .pg-tile:nth-of-type(2n) { --pg-offset: 0px; }             /* no stagger in one column */
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       PLAYGROUND — 3D COVERFLOW CAROUSEL
-       Cards arranged on a rotating ring: the centred card sits upright and
-       plays; neighbours recede in Z, rotate away and dim. Drag / wheel /
-       ← → to rotate. Click the centre card (or "Open full screen") to
-       expand into a lightbox. Page scroll is locked while #playground is
-       active (fully immersive, footer hidden). ════════════════════════ */
-    body.route-playground { overflow: hidden; }              /* lock page scroll on this route */
-    body.route-playground site-footer { display: none; }     /* fully immersive — no footer */
-    /* .pg-flow (below) owns the section's box on this route — padding clears the nav */
-
-    .pg-flow {
-      position: fixed; inset: 0; z-index: 2;
-      --pgf-accent: #000;                          /* accent: black in light mode… */
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: clamp(6px, 1.5vh, 16px);
-      padding: clamp(112px, 17vh, 156px) 0 24px;   /* clear the fixed nav + breathing room before the copy */
-      background: var(--bg-base); overflow: hidden;
-      -webkit-user-select: none; user-select: none;
-    }
-    body.night .pg-flow { --pgf-accent: #fff; }    /* …white in dark mode */
-
-    /* head */
-    .pgf-head { text-align: center; padding: 0 20px; }
-    .pgf-eyebrow {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-      letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
-    }
-    .pgf-title {
-      font-family: 'DM Serif Display', serif; font-weight: 400; letter-spacing: -0.02em;
-      font-size: clamp(30px, 5vw, 52px); line-height: 1; color: var(--text-heading);
-    }
-    .pgf-lead {
-      font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.55;
-      color: var(--text-heading); opacity: .78; max-width: 56ch; margin: 12px auto 0;
-    }
-    .pgf-hint {
-      font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em;
-      color: var(--text-heading); opacity: .5; margin-top: 10px;
-    }
-
-    /* stage / coverflow */
-    .pgf-stage {
-      position: relative; width: 100%;
-      flex: 1 1 auto; min-height: 0;               /* fills the space between head + caption */
-      perspective: 1600px;
-      display: flex; align-items: center; justify-content: center;
-      touch-action: none; overscroll-behavior: contain;
-    }
-    .pgf-track { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
-    .pgf-card {
-      position: absolute; top: 50%; left: 50%; translate: -50% -50%;
-      height: min(100%, 480px); width: auto; aspect-ratio: 4 / 3; max-width: 92vw;
-      border-radius: 14px; overflow: hidden; background: #0a090c;
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 30px 90px -30px rgba(0,0,0,.7);
-      transform-style: preserve-3d; cursor: pointer; will-change: transform, opacity;
-      transition: transform .7s cubic-bezier(.22,.61,.36,1),
-                  opacity .7s cubic-bezier(.22,.61,.36,1),
-                  filter .7s cubic-bezier(.22,.61,.36,1);
-    }
-    .pgf-card-media { width: 100%; height: 100%; }
-    .pgf-card-media img, .pgf-card-media video {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      -webkit-user-drag: none; pointer-events: none;
-    }
-    .pgf-card-vhs { position: absolute; inset: 0; pointer-events: none;
-      box-shadow: inset 0 0 120px 20px rgba(0,0,0,.55); }
-    .pgf-card-expand {
-      position: absolute; bottom: 12px; right: 12px; z-index: 3;
-      display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px;
-      font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
-      color: #fff; background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.22);
-      backdrop-filter: blur(4px); pointer-events: none;
-      opacity: 0; transform: translateY(6px); transition: opacity .25s ease, transform .25s ease;
-    }
-    .pgf-card-expand i { font-style: normal; }
-    .pgf-card.is-active:hover .pgf-card-expand { opacity: 1; transform: none; }
-    .pgf-card:not(.is-active) { filter: brightness(.45) saturate(.75); }
-    .pgf-card:not(.is-active) .pgf-card-vhs { box-shadow: inset 0 0 140px 40px rgba(0,0,0,.85); }
-
-    /* arrows */
-    .pgf-arrow {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
-      width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
-      background: rgba(10,9,12,.55); border: 1px solid rgba(255,255,255,.18);
-      color: var(--text-heading); font-size: 26px; line-height: 1; cursor: pointer;
-      backdrop-filter: blur(6px); transition: border-color .25s ease, color .25s ease, transform .2s ease;
-    }
-    body:not(.night) .pgf-arrow { background: rgba(255,255,255,.6); border-color: rgba(0,0,0,.12); }
-    .pgf-arrow:hover { border-color: var(--pgf-accent); color: var(--pgf-accent); }
-    .pgf-arrow:active { transform: translateY(-50%) scale(.94); }
-    .pgf-arrow--prev { left: clamp(10px, 3vw, 40px); }
-    .pgf-arrow--next { right: clamp(10px, 3vw, 40px); }
-
-    /* caption */
-    /* fixed min-height fits the tallest caption (2-line description), so the caption
-       never changes size between assets — that keeps the flex stage, the card, and the
-       prev/next arrows at a constant vertical position while rotating. */
-    .pgf-caption { max-width: 640px; text-align: center; padding: 0 20px; min-height: 152px; }
-    .pgf-cap-meta { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
-    .pgf-cap-index { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .2em; color: var(--pgf-accent); }
-    .pgf-cap-tags { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-heading); opacity: .55; }
-    .pgf-cap-title { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(24px, 4vw, 40px); line-height: 1.05; color: var(--text-heading); margin-bottom: 10px; }
-    .pgf-cap-desc { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.55; color: #8a8a8a; max-width: 52ch; margin: 0 auto 16px; }
-    .pgf-caption > * { transition: opacity .35s ease; }
-    .pgf-caption.swap > * { opacity: 0; }
-
-    /* click-to-expand lightbox */
-    .pgf-lightbox {
-      position: fixed; inset: 0; z-index: 120;   /* above the nav (z-index 100) */
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 22px; padding: clamp(16px, 4vw, 48px);
-      background: rgba(4,4,6,.94); backdrop-filter: blur(14px);
-      opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility .4s;
-    }
-    .pgf-lightbox.open { opacity: 1; visibility: visible; }
-    /* fixed 4:3 frame so every expanded asset opens at the same max size,
-       regardless of its native aspect ratio; media is contained (never cropped),
-       black letterbox blends with the assets' own black backgrounds. */
-    .pgf-lb-stage {
-      position: relative;
-      width: min(1000px, 92vw, calc(74vh * 4 / 3)); aspect-ratio: 4 / 3;
-      display: flex; align-items: center; justify-content: center;
-      background: #000; border-radius: 10px; overflow: hidden;
-      box-shadow: 0 40px 120px -30px #000;
-    }
-    .pgf-lb-stage video, .pgf-lb-stage img {
-      width: 100%; height: 100%; object-fit: contain; display: block;
-    }
-    .pgf-lb-info { text-align: center; max-width: 60ch; color: #fff; }
-    .pgf-lb-index { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .2em; color: #fff; }
-    .pgf-lb-title { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(22px, 4vw, 34px); line-height: 1.05; margin: 6px 0 8px; }
-    .pgf-lb-desc { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 15px; line-height: 1.55; color: #9a9a9a; margin-bottom: 8px; }
-    .pgf-lb-tags { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-    .pgf-lb-close {
-      position: absolute; top: clamp(16px, 3vw, 28px); right: clamp(16px, 3vw, 28px); z-index: 5;
-      width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
-      background: rgba(20,22,26,.8); border: 1px solid rgba(255,255,255,.2); color: #fff;
-      font-size: 16px; cursor: pointer; transition: border-color .25s ease, color .25s ease, transform .25s ease;
-    }
-    .pgf-lb-close:hover { border-color: #fff; color: #fff; transform: rotate(90deg); }
-    .pgf-lb-nav {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
-      width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center;
-      background: rgba(20,22,26,.7); border: 1px solid rgba(255,255,255,.2); color: #fff;
-      font-size: 26px; cursor: pointer; transition: border-color .25s ease, color .25s ease;
-    }
-    .pgf-lb-nav:hover { border-color: #fff; color: #fff; }
-    .pgf-lb-nav--prev { left: clamp(10px, 3vw, 32px); }
-    .pgf-lb-nav--next { right: clamp(10px, 3vw, 32px); }
-
-    @media (max-width: 620px) {
-      .pgf-card { width: 84vw; height: auto; max-width: none; }   /* width-driven on phones */
-      .pgf-arrow { width: 44px; height: 44px; font-size: 22px; }
-      .pgf-cap-desc { font-size: 14px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .pgf-card { transition: opacity .3s ease, filter .3s ease; }
-      .pgf-lightbox, .pgf-caption > * { transition: opacity .3s ease; }
-    }
+    /* — Work / Hatcha case study: routed via #hatcha, hides landing sections — */
   </style>
 </head>
 
@@ -3037,93 +2756,6 @@
       </div>
     </div>
 
-    <!-- project tile grid (staggered: wide–narrow top, narrow–wide bottom) -->
-    <div class="project-tiles">
-      <div class="tiles-row">
-        <a class="project-tile tile-wide" href="/work/hatcha" aria-label="Open the Hatcha case study">
-          <div class="cs-hero-mock tile-mock cs-mock-lap" data-hero-mock>
-            <div class="cs-hero-zoom">
-              <img class="cs-hero-plate" src="/assets/genUI%20case%20study%20assets/hero%20asset/hero-plate.jpg" alt="Hatcha — the event planner running on a laptop resting on a green sofa">
-              <div class="cs-hero-screen">
-                <video class="cs-hero-vid" muted loop playsinline preload="none" data-tile-vid
-                       poster="/assets/genUI%20case%20study%20assets/hero%20asset/hero-screen-poster.jpg"
-                       aria-label="Walkthrough of the Hatcha event planner — the conversational interview and the event summary">
-                  <source data-src="/assets/genUI%20case%20study%20assets/hero%20asset/hero-screen.mp4" type="video/mp4">
-                  <source data-src="/assets/genUI%20case%20study%20assets/hero%20asset/hero-screen.webm" type="video/webm">
-                </video>
-              </div>
-            </div>
-          </div>
-          <div class="tile-overlay">
-            <p class="tile-overlay-title">Hatcha</p>
-            <p class="tile-overlay-subtitle">The generative UI system that shipped<br class="tile-break"> to Google I/O 2026.</p>
-          </div>
-        </a>
-        <a class="project-tile tile-narrow" href="/work/fireflut" aria-label="Open the Fireflut case study">
-          <div class="cs-hero-mock tile-mock cs-mock-phone" data-hero-mock
-               data-warp='{"Q":[[0.4251,0.2733],[0.5160,0.2378],[0.5808,0.7476],[0.4890,0.8006]],"sw":450,"sh":1000,"plateAR":2.35714,"inset":0.044,"bottomInset":0.0168,"vext":0.0128}'>
-            <div class="cs-hero-zoom">
-              <img class="cs-hero-plate" src="/assets/fireflut/mwc-hero-plate.jpg" alt="Fireflut — Gemini telecom demo for MWC 2025">
-              <div class="cs-hero-screen">
-                <video class="cs-hero-vid" muted loop playsinline preload="none" data-tile-vid
-                       poster="/assets/fireflut/mwc-hero-screen-poster.jpg"
-                       aria-label="Walkthrough of the Fireflut app — data usage gauge and the Gemini plan assistant">
-                  <source data-src="/assets/fireflut/mwc-hero-screen.mp4" type="video/mp4">
-                  <source data-src="/assets/fireflut/mwc-hero-screen.webm" type="video/webm">
-                </video>
-              </div>
-            </div>
-          </div>
-          <div class="tile-overlay">
-            <p class="tile-overlay-title">Fireflut</p>
-            <p class="tile-overlay-subtitle">Google Gemini's telecom AI showcase,<br class="tile-break"> live on the MWC 2025 floor.</p>
-          </div>
-        </a>
-      </div>
-      <div class="tiles-row">
-        <a class="project-tile tile-narrow" href="/work/existence" aria-label="Open the Existence case study">
-          <div class="cs-hero-mock tile-mock cs-mock-ex" data-hero-mock
-               data-warp='{"Q":[[0.5757,0.2047],[0.6583,0.4285],[0.4245,0.7869],[0.3448,0.5481]],"sw":462,"sh":1000,"plateAR":2.35714,"inset":0.052,"bottomInset":0,"vext":0.0139}'>
-            <div class="cs-hero-zoom">
-              <img class="cs-hero-plate" src="/assets/existence%20case%20study%20assets/hero%20asset/hero-plate.jpg" alt="Existence — a time-intelligence app running on a phone">
-              <div class="cs-hero-screen">
-                <video class="cs-hero-vid" muted loop playsinline preload="none" data-tile-vid
-                       poster="/assets/existence%20case%20study%20assets/hero%20asset/hero-screen-poster.jpg"
-                       aria-label="Walkthrough of the Existence app — the day timeline and creating a Time Block">
-                  <source data-src="/assets/existence%20case%20study%20assets/hero%20asset/hero-screen.mp4" type="video/mp4">
-                  <source data-src="/assets/existence%20case%20study%20assets/hero%20asset/hero-screen.webm" type="video/webm">
-                </video>
-              </div>
-            </div>
-          </div>
-          <div class="tile-overlay">
-            <p class="tile-overlay-title">Existence</p>
-            <p class="tile-overlay-subtitle">Rob Dyrdek's time-intelligence app,<br class="tile-break"> 8,000+ in beta with 30,000 waiting.</p>
-          </div>
-        </a>
-        <a class="project-tile tile-wide" href="/work/jumpable" aria-label="Open the Jumpable case study">
-          <div class="cs-hero-mock tile-mock cs-mock-watch" data-hero-mock
-               data-warp='{"Q":[[0.4820,0.3764],[0.5430,0.3557],[0.5567,0.5501],[0.4954,0.5722]],"sx":52.63,"sy":0,"sw":833.33,"sh":1000,"plateAR":2.35714,"inset":0.018,"bottomInset":-0.0048,"vext":0}'>
-            <div class="cs-hero-zoom">
-              <img class="cs-hero-plate" src="/assets/Jumpable%20case%20study%20assets/hero%20asset/hero-plate.jpg" alt="Jumpable — a jump lab running on an Apple Watch Ultra">
-              <div class="cs-hero-screen">
-                <video class="cs-hero-vid" muted loop playsinline preload="none" data-tile-vid
-                       poster="/assets/Jumpable%20case%20study%20assets/hero%20asset/hero-screen-poster.jpg"
-                       aria-label="Walkthrough of the Jumpable watch app — the onboarding cards an athlete sees on first run">
-                  <source data-src="/assets/Jumpable%20case%20study%20assets/hero%20asset/hero-screen.mp4" type="video/mp4">
-                  <source data-src="/assets/Jumpable%20case%20study%20assets/hero%20asset/hero-screen.webm" type="video/webm">
-                </video>
-              </div>
-            </div>
-          </div>
-          <div class="tile-overlay">
-            <p class="tile-overlay-title">Jumpable</p>
-            <p class="tile-overlay-subtitle">A jump lab on your ankle. The redesign<br class="tile-break"> that doubled paid conversion.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-
   </section>
 
   <!-- ════ TESTIMONIALS (node 128:3851) ════ -->
@@ -3138,48 +2770,45 @@
 
     <div class="t-inner">
       <p class="t-eyebrow reveal">TESTIMONIALS</p>
-      <h2 class="t-heading reveal" style="--reveal-delay: 0.12s">In their words</h2>
+      <h2 class="t-heading reveal" style="--reveal-delay: 0.12s">Recent Work</h2>
 
       <!-- testimonial cards — node 203:2130. Stacked deck that fans out left/right
            on scroll (spread progress driven from JS via --spread). -->
       <div class="t-cards" id="t-cards">
         <!-- front / centre of the stack -->
         <figure class="t-card t-card--front" style="--pos: 0; z-index: 3;">
-          <img class="t-quoteicon" src="/assets/t-quote.svg" alt="" aria-hidden="true">
-          <blockquote class="t-quote">Zainab is a detailed and analytical designer with a true eagerness to learn and discover new opportunities. Her core strengths lie in her exceptional technical skills and ability to embrace new technologies for building great products. Zainab is a proactive and reliable collaborator who excels at communicating with developers, stakeholders, and her fellow designers. Zainab has been a fantastic member of our team, and I am certain she has a bright future ahead as she continues her professional journey.</blockquote>
+          <img class="t-quoteicon" src="/assets/resumeos.png" alt="" aria-hidden="true">
+          <blockquote class="t-quote">ResumeOS is an innovative developer-focused platform designed to streamline professional portfolio creation and career tracking. It features dynamic introductory animation sequences, modern user interfaces, and automated tools that simplify how applicants manage, optimize, and showcase their professional experience.</blockquote>
           <hr class="t-divider">
           <figcaption class="t-author">
             <div class="t-authorrow">
-              <img class="t-avatar" src="/assets/t-jared-bell.jpeg" alt="Jared Bell">
-              <span class="t-name">Jared Bell</span>
+              <span class="t-name">ResumeOS</span>
             </div>
-            <span class="t-role">Creative director at gskinner</span>
+            <a class="t-role" href="https://resumeos.netlify.app" target="_blank" rel="noopener">Get Access</a>
           </figcaption>
         </figure>
         <!-- right of the stack -->
         <figure class="t-card t-card--side" style="--pos: 1; z-index: 2;">
-          <img class="t-quoteicon" src="/assets/t-quote.svg" alt="" aria-hidden="true">
-          <blockquote class="t-quote">Zainab is a very good designer to work with on daily basis. She has a deep care for human-centered design, which makes her design easier for end users to understand. While working with us she made sure, she took care of complex interactions and state management, which helped us to scale the projects very well.</blockquote>
+          <img class="t-quoteicon" src="/assets/unidate.png" alt="" aria-hidden="true">
+          <blockquote class="t-quote">UniDate is a specialized university social connectivity platform designed to enhance campus networking. It features secure authentication workflows, streamlined user interfaces, and robust domain configurations to foster vibrant community interactions and help students build meaningful peer connections.</blockquote>
           <hr class="t-divider">
           <figcaption class="t-author">
             <div class="t-authorrow">
-              <img class="t-avatar" src="/assets/t-roopam-mishra.jpeg" alt="Roopam Mishra">
-              <span class="t-name">Roopam Mishra</span>
+              <span class="t-name">Unidate</span>
             </div>
-            <span class="t-role">Founder at Phionike</span>
+            <a class="t-role" href="https://github.com/CODEMASTERSTACK/Re-Uni.git" target="_blank" rel="noopener">Get Access</a>
           </figcaption>
         </figure>
         <!-- left of the stack -->
         <figure class="t-card t-card--side" style="--pos: -1; z-index: 1;">
-          <img class="t-quoteicon" src="/assets/t-quote.svg" alt="" aria-hidden="true">
-          <blockquote class="t-quote">Her work truly speaks for itself: it’s research backed, resilient against edge cases, and built with a beautiful aesthetic that is delightful to interact with. Zainab’s confidence and attention to detail make even the most complex challenges feel manageable. Whether vibe-coding or constructing 3D environments, she’s natural at tackling new tools and concepts with total fearlessness – an asset to any team!</blockquote>
+          <img class="t-quoteicon" src="/assets/tradesmart.png" alt="" aria-hidden="true">
+          <blockquote class="t-quote">An AI-powered, full-stack trading intelligence platform for Indian stock markets (NSE/BSE). It provides real-time trading signals, technical analysis, sentiment monitoring, macro indicator tracking, portfolio management, and risk analysis all powered by Google Gemini AI and a Python FastAPI backend.</blockquote>
           <hr class="t-divider">
           <figcaption class="t-author">
             <div class="t-authorrow">
-              <img class="t-avatar" src="/assets/t-anna-groat.jpeg" alt="Anna Groat">
-              <span class="t-name">Anna Groat</span>
+              <span class="t-name">SmartTrade</span>
             </div>
-            <span class="t-role">Product designer at gskinner</span>
+            <a class="t-role" href="https://github.com/CODEMASTERSTACK/Intelligent-Real-Time-Trading-System.git" target="_blank" rel="noopener">Get Access</a>
           </figcaption>
         </figure>
       </div>
@@ -3205,18 +2834,17 @@
 
         <div class="ai-content">
           <div class="ai-copy">
-            <h1 class="ai-heading">I trained as an architect. Now I design products people actually want to use.</h1>
+            <h1 class="ai-heading">I trained as an Data Analyst. Now I design and code products people actually want to use.</h1>
             <div class="ai-body">
-              <p>With 6+ years spanning architecture and product design, I bring something most designers don&rsquo;t: <strong>a structural way of thinking</strong>. I&rsquo;ve spent 4+ years crafting zero-to-one products, scaling design systems, and designing AI-powered experiences &ndash; most recently for a genUI powered app showcased at Google I/O 2026.</p>
-              <p>From founder-led startups to globally recognised brands in sports, tech, and entertainment, I bring rigour, range, and an eye for detail to every build.</p>
+              <p>I spend my days chasing small, stubborn problems &mdash; a broken function, a system that almost makes sense, a dataset hiding its own story. I build quietly, learn by doing, and find comfort in things that finally work. Based in India, mostly curious, mostly building &mdash; one line, one fix, one idea at a time.</p>
             </div>
           </div>
 
           <div class="ai-photos">
-            <figure class="ai-polaroid p1"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/about-photo-4.jpg" alt="A home-cooked dinner spread of pasta bake, sliders, and pinwheel pastries"></span></span></figure>
-            <figure class="ai-polaroid p2"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/about-photo-3.jpg" alt="Night skiing on a snowy mountain with city lights below"></span></span></figure>
-            <figure class="ai-polaroid p3"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/about-photo-2.jpg" alt="Looking up a sculptural concrete facade against a blue sky"></span></span></figure>
-            <figure class="ai-polaroid p4"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/about-photo-1.jpg" alt="Portrait of Zainab Kabira" fetchpriority="high"></span></span></figure>
+            <figure class="ai-polaroid p1"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/portraits/image1.jpeg" alt="Portrait photo in the first polaroid slot"></span></span></figure>
+            <figure class="ai-polaroid p2"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/portraits/image2.jpeg" alt="Portrait photo in the second polaroid slot"></span></span></figure>
+            <figure class="ai-polaroid p3"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/portraits/image3.jpeg" alt="Portrait photo in the third polaroid slot"></span></span></figure>
+            <figure class="ai-polaroid p4"><span class="ai-card"><span class="ai-photo"><img loading="lazy" decoding="async" src="/assets/portraits/image4.jpeg" alt="Portrait photo in the primary front polaroid slot" fetchpriority="high"></span></span></figure>
 
             <button type="button" class="ai-photos-reset" aria-label="Reset photo positions" title="Reset photos">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -3243,22 +2871,22 @@
           <div class="aexp-item is-open">
             <button class="aexp-head" type="button" aria-expanded="true">
               <span class="aexp-company">
-                <span class="aexp-name">gskinner</span>
-                <span class="aexp-role">Product Designer</span>
+                <span class="aexp-name">Celebal Technologies</span>
+                <span class="aexp-role">Data Engineer Intern</span>
               </span>
               <span class="aexp-meta">
-                <span class="aexp-date">Nov 2022 &ndash; May 2026</span>
+                <span class="aexp-date">Jun 2025 &ndash; Aug 2025</span>
                 <span class="aexp-toggle" aria-hidden="true"></span>
               </span>
             </button>
             <div class="aexp-panel">
               <div class="aexp-panel-inner">
-                <p>Product designer and design lead across AI, sports-tech, and consumer products for clients including Google and the PGA Tour. Work spanned end-to-end product design, design systems, and shipped engineering contributions.</p>
+                <p>During my Data Engineer internship at Celebal Technologies (Jun&ndash;Aug 2025), I worked on data pipelines and ETL workflows using Python, SQL, and Azure, including binary file parsing on ADLS Gen2.</p>
                 <ul class="aexp-bullets">
-                  <li>Design co-lead for a generative-UI app featured on-stage at Google I/O and Cloud Next 2026. Built the design system from scratch and defined the interaction model for a net-new product category.</li>
-                  <li>Led the UI redesign of a Flutter + Gemini showcase app presented at Mobile World Congress 2025, translating cutting-edge AI capabilities into a polished, demo-ready experience.</li>
-                  <li>Designed and shipped 10+ major features for Existence, an AI time-tracking app, contributing to the design system, writing production code alongside the engineering team, and running QA and PR reviews.</li>
-                  <li>Designed multiple apps within ShotLink 2.0 for the PGA Tour, the system used to track and verify every shot across 35&ndash;40 live tournaments annually on the global tour.</li>
+                  <li><strong>Data Pipelines</strong> &mdash; Worked as a Data Engineer intern building and maintaining data pipelines that moved and processed data across systems. Focused on making pipelines reliable and repeatable, handling data at different stages from ingestion to storage, largely within Azure&rsquo;s cloud ecosystem.</li>
+                  <li><strong>ETL Workflows</strong> &mdash; Built ETL workflows to extract, clean, and transform raw data into usable formats. This involved writing Python scripts for data cleaning and using SQL to query, structure, and validate datasets before they moved further down the pipeline.</li>
+                  <li><strong>Azure / ADLS Gen2</strong> &mdash; Worked hands-on with Azure services, particularly Azure Data Lake Storage Gen2, for storing and organizing large volumes of data. Gained experience navigating cloud storage architecture and understanding how enterprise-scale data infrastructure is structured and maintained.</li>
+                  <li><strong>Binary File Parsing</strong> &mdash; Worked specifically on binary file parsing &mdash; reading and interpreting non-text data formats stored on ADLS Gen2, then converting them into structured, analyzable data. This required understanding file structures at a lower level than typical data-handling tasks.</li>
                 </ul>
               </div>
             </div>
@@ -3269,8 +2897,8 @@
           <div class="aexp-item">
             <button class="aexp-head" type="button" aria-expanded="false">
               <span class="aexp-company">
-                <span class="aexp-name">Phionike: Design-Tech Studio</span>
-                <span class="aexp-role">UX Designer</span>
+                <span class="aexp-name">Wise</span>
+                <span class="aexp-role">Freelance Software Engineer</span>
               </span>
               <span class="aexp-meta">
                 <span class="aexp-date">Jan 2022 &ndash; Jun 2022</span>
@@ -3280,8 +2908,11 @@
             <div class="aexp-panel">
               <div class="aexp-panel-inner">
                 <ul class="aexp-bullets">
-                  <li>Contributed to the feature redesign of aDintelle, an end-to-end agency operations platform trusted by 1000+ advertising agencies across media, digital, and creative sectors. Working as part of a two-person design team, I focused on reducing complexity in the TV commercial scheduling interface by identifying and prioritising the most critical user workflows &mdash; resulting in a cleaner, more focused experience.</li>
-                  <li>Contributed to the design system by establishing interaction state management patterns that helped the team scale design more efficiently across the product. Portions of the redesign shipped and received positive client feedback on usability improvements.</li>
+                  <li><strong>AI Interviewer Platform</strong> &mdash; Built a freelance AI Interviewer platform using React on the frontend, Node.js/Express on the backend, and OpenAI&rsquo;s API for the AI logic where companies create scheduled interviews, send candidates a unique link, and the AI conducts and analyzes the entire session.</li>
+                  <li><strong>Interview Creation &amp; Link Sharing</strong> &mdash; Built the interview creation flow in React, with a Node.js/Express backend handling logic and MongoDB storing interview data. Once created, the platform generates a unique, secure link tied to that candidate and session, sent for scheduled access.</li>
+                  <li><strong>Scheduled, AI-Led Interview Flow</strong> &mdash; Used scheduled triggers on the backend to activate each session at the right time, with real-time audio handled via WebRTC and speech-to-text for transcription. The AI opens with briefing questions before moving into the full interview, no human needed live.</li>
+                  <li><strong>Configurable Question Sets</strong> &mdash; Built a flexible schema so interviewers can define and edit question sets per interview through the React UI, stored and fetched dynamically from the backend rather than hardcoded, letting the same platform serve different roles and candidates.</li>
+                  <li><strong>AI Analysis &amp; Response</strong> &mdash; Integrated OpenAI&rsquo;s API to process candidate answers in real time, generate contextual follow-ups, and adapt the conversation dynamically turning the interview into a responsive exchange instead of a fixed question list.</li>
                 </ul>
               </div>
             </div>
@@ -3289,50 +2920,6 @@
 
           <div class="aexp-divider"></div>
 
-          <div class="aexp-item">
-            <button class="aexp-head" type="button" aria-expanded="false">
-              <span class="aexp-company">
-                <span class="aexp-name">WorkShare-Inc</span>
-                <span class="aexp-role">Interior Architect</span>
-              </span>
-              <span class="aexp-meta">
-                <span class="aexp-date">Jul 2021 &ndash; Jan 2022</span>
-                <span class="aexp-toggle" aria-hidden="true"></span>
-              </span>
-            </button>
-            <div class="aexp-panel">
-              <div class="aexp-panel-inner">
-                <ul class="aexp-bullets">
-                  <li>Designed interiors for multiple residential projects, bringing a strong attention to detail and a commitment to quality execution across every deliverable. A standout project involved integrating authentic Kashmiri cultural elements into a bungalow interior, balancing traditional aesthetics with modern sensibilities &mdash; a challenge that sharpened my ability to design within complex cultural and contextual constraints.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="aexp-divider"></div>
-
-          <div class="aexp-item">
-            <button class="aexp-head" type="button" aria-expanded="false">
-              <span class="aexp-company">
-                <span class="aexp-name">Alf Design Consultants</span>
-                <span class="aexp-role">Project Architect</span>
-              </span>
-              <span class="aexp-meta">
-                <span class="aexp-date">Jul 2021 &ndash; Jan 2022</span>
-                <span class="aexp-toggle" aria-hidden="true"></span>
-              </span>
-            </button>
-            <div class="aexp-panel">
-              <div class="aexp-panel-inner">
-                <ul class="aexp-bullets">
-                  <li>Designed and presented residential and commercial projects spanning office and apartment interiors, translating client requirements into clear, compelling design concepts. Built strong client relationships through transparent communication of design decisions and rationale.</li>
-                  <li>Led coordination across 10 cross-functional trades to deliver a 2BHK home renovation within a &#8377;5 lakh budget and a seven month deadline, navigating the additional complexity of the COVID-19 pandemic without compromising on quality or timeline.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="aexp-divider"></div>
         </div>
       </div>
     </section>
@@ -3345,44 +2932,43 @@
 
         <!-- hikes 2025 (node 1:838) -->
         <div class="ff-card b1 pos-lt ff-hikes">
-          <div class="ff-hikes-label"><span class="k">Hikes</span><span class="y">2025</span></div>
-          <div class="ff-photo h1"><img src="/assets/about-hike-3.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div class="ff-photo h2"><img src="/assets/about-hike-2.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div class="ff-photo h3"><img src="/assets/about-hike-1.jpg" alt="A hiking trip in 2025" loading="lazy" decoding="async"></div>
+          <div class="ff-hikes-label"><span class="k">My Clicks</span><span class="y">Lifelong</span></div>
+          <div class="ff-photo h1"><img src="/assets/about/first/first.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="ff-photo h2"><img src="/assets/portraits/image7.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="ff-photo h3"><img src="/assets/portraits/image6.jpeg" alt="" loading="lazy" decoding="async"></div>
+
         </div>
 
-        <!-- weekend to do (node 1:845) -->
+        <!--todo (node 1:845) -->
         <div class="ff-card b1 pos-ct ff-wk">
-          <span class="ff-wk-friday">Friday</span>
+          <span class="ff-wk-friday">Learning things</span>
           <span class="ff-wk-dots"><i></i><i></i><i></i></span>
           <div class="ff-wk-panel">
             <div class="ff-wk-inner">
-              <p class="ff-wk-title">Weekend To do</p>
+              <p class="ff-wk-title">In Progress</p>
               <div class="ff-wk-list">
-                <div class="r"><span class="cb"></span><span class="t">Try Souffl&egrave; pancakes</span></div>
-                <div class="r"><span class="cb"></span><span class="t">Complete Panorama Ridge Hike</span></div>
-                <div class="r"><span class="cb"></span><span class="t">Portfolio</span></div>
-                <div class="r"><span class="cb"></span><span class="t">Meet alif &amp; Umme</span></div>
-                <div class="r"><span class="cb"></span><span class="t">Date night with Taiks</span></div>
+                <div class="r"><span class="cb"></span><span class="t">Understanding RAG</span></div>
+                <div class="r"><span class="cb"></span><span class="t">Completing Masters</span></div>
+                <div class="r"><span class="cb"></span><span class="t">Working on Multi Model Research Paper</span></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- gully boy music (node 1:885) -->
+        <!-- music (node 1:885) -->
         <div class="ff-card pos-rt ff-gully">
-          <div class="ff-media"><img loading="lazy" decoding="async" src="/assets/about-gully.png" alt="Gully Boy album art"></div>
+          <div class="ff-media"><img loading="lazy" decoding="async" src="/assets/about/song.jpg" alt="Good Life"></div>
           <div class="ff-gully-grad" aria-hidden="true"></div>
           <div class="ff-gully-pill">
             <span class="ff-vinyl" aria-hidden="true"></span>
             <span class="meta">
-              <span class="a">A song that never gets <em>old...</em></span>
-              <span class="b">@Divine</span>
+              <span class="a">A song which is <em> for good life. Hehe:)</em></span>
+              <span class="b">@OneRepublic</span>
             </span>
           </div>
           <div class="ff-gully-player">
             <div class="ff-gully-prog">
-              <div class="ff-gully-time"><span>0:00</span><span>-2:13</span></div>
+              <div class="ff-gully-time"><span>0:00</span><span>-4:09</span></div>
               <div class="ff-gully-bar"><span></span></div>
             </div>
             <div class="ff-gully-ctrls" aria-hidden="true">
@@ -3391,7 +2977,7 @@
               <svg viewBox="0 0 24 24"><path d="M6 6v12l8.5-6L6 6zM16 6h2v12h-2V6z"/></svg>
             </div>
           </div>
-          <a class="ff-gully-link" href="https://www.youtube.com/watch?v=jFGKJBPFdUA&amp;list=RDjFGKJBPFdUA&amp;start_radio=1" target="_blank" rel="noopener noreferrer" aria-label="Listen to this song on YouTube"></a>
+          <a class="ff-gully-link" href="https://youtu.be/jZhQOvvV45w?si=FUp9Hb9bwe1Fc4JL" target="_blank" rel="noopener noreferrer" aria-label="Listen to this song on YouTube"></a>
         </div>
 
         <!-- quote (node 1:778) -->
@@ -3408,36 +2994,15 @@
 
         <!-- blog (node 342:5315) -->
         <div class="ff-card b1 pos-cb ff-blog">
-          <div class="ff-blog-img"><img loading="lazy" decoding="async" src="/assets/about-blog-hd.png" alt="Blog cover"></div>
-          <p class="ff-blog-title">Overlapping worlds of Product Des &amp; Architecture</p>
+          <div class="ff-blog-img"><img loading="lazy" decoding="async" src="/assets/blog.png" alt="Blog cover"></div>
+          <p class="ff-blog-title">Multi-level Model Conflict</p>
           <div class="ff-blog-foot">
             <span class="rl">Read Blog</span>
             <span class="rl-icon" aria-hidden="true"></span>
           </div>
           <img loading="lazy" decoding="async" class="ff-bookmark" src="/assets/about-blog-bookmark.svg" alt="" aria-hidden="true">
-          <a class="ff-blog-link" href="https://blog.gskinner.com/archives/2024/05/overlapping-worlds-of-product-design-and-architecture.html" target="_blank" rel="noopener noreferrer" aria-label="Read the blog post: Overlapping worlds of Product Design and Architecture"></a>
+          <a class="ff-blog-link" href="https://www.semanticscholar.org/paper/Conflict-Management-for-Multi-Level-Models-in-Fu-Grossmann/a2ad4ad2ef7409c2fb4a09462fc73889433213b2#citing-papers" target="_blank" rel="noopener noreferrer" aria-label="Read the blog post: Conflict Management for Multi-Level Models"></a>
         </div>
-
-        <!-- starry night game (node 342:5417) -->
-        <div class="ff-card pos-rb ff-starry">
-          <div class="ff-media"><img loading="lazy" decoding="async" src="/assets/about-starry-hd.webp" alt="Starry Night Panic game"></div>
-          <div class="ff-starry-panel">
-            <span class="k">Recently coded</span>
-            <span class="t">Starry Night Panic!</span>
-            <div class="ff-starry-row">
-              <div class="ff-avatars">
-                <span class="av"><img loading="lazy" decoding="async" src="/assets/about-starry-av1.png" alt=""></span><span class="av"><img loading="lazy" decoding="async" src="/assets/about-starry-av2.png" alt=""></span><span class="av"><img loading="lazy" decoding="async" src="/assets/about-starry-av3.png" alt=""></span>
-                <span class="plus">+30</span>
-              </div>
-              <button class="ff-play-btn" type="button">
-                <span>PLAY</span>
-                <img loading="lazy" decoding="async" class="pl-icon" src="/assets/about-starry-extlink.svg" width="20" height="20" alt="" aria-hidden="true">
-              </button>
-            </div>
-          </div>
-          <a class="ff-starry-link" href="https://zainabvkabira.github.io/Starry-Night-Panic/" target="_blank" rel="noopener noreferrer" aria-label="Play Starry Night Panic"></a>
-        </div>
-
       </div>
     </section>
 
@@ -3447,58 +3012,9 @@
 
   </div><!-- /#about-view -->
 
-  <!-- ═════════════════════════════════════════════════════════════════
-       PLAYGROUND PAGE (Figma node 128:6061) — in-page view. Hidden until
-       routed to via #playground. Shares <site-nav> (top) and <site-footer>.
-       Staggered brick grid: full-width intro band, then 10 equally-sized
-       4:3 tiles whose 2nd/3rd columns are offset down so the rows weave
-       (see .pg-grid / .pg-tile:nth-of-type stagger). ═════════════════════ -->
-  <div id="playground-view" hidden>
-    <section class="playground pg-flow" aria-label="Playground — motion and 3D experiments">
-      <h1 class="sr-only">Playground — design and code experiments by Zainab Kabira</h1>
-      <!-- 3D coverflow carousel. Cards + dots are built by JS from the DATA
-           array in the engine script below. Drag / wheel / ← → to rotate;
-           click the centre card (or "Open full screen") to expand it. -->
-      <div class="pgf-head">
-        <p class="pgf-lead">Each vignette is a small study in material, light, and movement, and a few grew into showcase work for FlutterFlow and Flutter Animate.</p>
-      </div>
-
-      <div class="pgf-stage" id="pgf-stage">
-        <button type="button" class="pgf-arrow pgf-arrow--prev" id="pgf-prev" aria-label="Previous">&lsaquo;</button>
-        <div class="pgf-track" id="pgf-track"><!-- cards injected by JS --></div>
-        <button type="button" class="pgf-arrow pgf-arrow--next" id="pgf-next" aria-label="Next">&rsaquo;</button>
-      </div>
-
-      <div class="pgf-caption" id="pgf-caption">
-        <div class="pgf-cap-meta">
-          <span class="pgf-cap-index" id="pgf-cap-index"></span>
-          <span class="pgf-cap-tags" id="pgf-cap-tags"></span>
-        </div>
-        <h3 class="pgf-cap-title" id="pgf-cap-title"></h3>
-        <p class="pgf-cap-desc" id="pgf-cap-desc"></p>
-      </div>
-    </section>
-
-    <!-- Lightbox lives OUTSIDE .pg-flow so its z-index resolves in the page root
-         stacking context (not trapped under .pg-flow's z-index:2) — otherwise the
-         nav (z-index 100) would paint over it. -->
-    <div class="pgf-lightbox" id="pgf-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Experiment viewer">
-      <button type="button" class="pgf-lb-close" id="pgf-lb-close" aria-label="Close">&times;</button>
-      <button type="button" class="pgf-lb-nav pgf-lb-nav--prev" id="pgf-lb-prev" aria-label="Previous">&lsaquo;</button>
-      <div class="pgf-lb-stage" id="pgf-lb-stage"><!-- media injected --></div>
-      <button type="button" class="pgf-lb-nav pgf-lb-nav--next" id="pgf-lb-next" aria-label="Next">&rsaquo;</button>
-      <div class="pgf-lb-info">
-        <span class="pgf-lb-index" id="pgf-lb-index"></span>
-        <h3 class="pgf-lb-title" id="pgf-lb-title"></h3>
-        <p class="pgf-lb-desc" id="pgf-lb-desc"></p>
-        <span class="pgf-lb-tags" id="pgf-lb-tags"></span>
-      </div>
-    </div>
-  </div><!-- /#playground-view -->
-
   <!-- ═══════════════════════════════════════════════════════════════
        WORK · HATCHA CASE STUDY (Figma node 1:2653) — in-page view,
-       routed via #hatcha exactly like About / Playground. Shares
+       routed via #hatcha like the other case studies. Shares
        <site-nav> (top) and <site-footer> (Grow together? + hills).
        Photographic elements are placeholders (.cs-ph) pending assets.
        ═══════════════════════════════════════════════════════════════ -->
@@ -7474,6 +6990,7 @@
 
     <!-- 05 OUTCOME — split: header + stats as one 100vh panel, the final
          montage as the next. -->
+
     <section class="cs-band cream cs-panel cs-out">
       <div class="cs-ledger">
         <!-- meta rail -->
@@ -7980,9 +7497,8 @@
   <!-- About: hash routing + experience accordion -->
   <script>
     (function () {
-      // ── in-page routing: #about / #playground open their views, hide the landing ──
+      // ── in-page routing: #about opens the about view and hides the landing ──
       const aboutView = document.getElementById('about-view');
-      const playgroundView = document.getElementById('playground-view');
       const hatchaView = document.getElementById('hatcha-view');
       const fireflutView = document.getElementById('fireflut-view');
       const existenceView = document.getElementById('existence-view');
@@ -8016,26 +7532,23 @@
 
       function applyAboutRoute() {
         const isAbout = route.token() === '#about';
-        const isPlayground = route.token() === '#playground';
         const isHatcha = route.token() === '#hatcha';
         const isFireflut = route.token() === '#fireflut';
         const isExistence = route.token() === '#existence';
         const isJumpable = route.token() === '#jumpable';
         document.body.classList.toggle('route-about', isAbout);
-        document.body.classList.toggle('route-playground', isPlayground);
         document.body.classList.toggle('route-hatcha', isHatcha);
         document.body.classList.toggle('route-fireflut', isFireflut);
         document.body.classList.toggle('route-existence', isExistence);
         document.body.classList.toggle('route-jumpable', isJumpable);
         if (aboutView) aboutView.hidden = !isAbout;
-        if (playgroundView) playgroundView.hidden = !isPlayground;
         if (hatchaView) hatchaView.hidden = !isHatcha;
         if (fireflutView) fireflutView.hidden = !isFireflut;
         if (existenceView) existenceView.hidden = !isExistence;
         if (jumpableView) jumpableView.hidden = !isJumpable;
         document.querySelectorAll('.nav-link, .menu-link').forEach(l => {
           const href = l.getAttribute('href') || '';
-          l.classList.toggle('active', (isAbout && (href.endsWith('#about') || href.endsWith('/about'))) ||                                       (isPlayground && (href.endsWith('#playground') || href.endsWith('/playground'))));
+          l.classList.toggle('active', isAbout && (href.endsWith('#about') || href.endsWith('/about')));
         });
         // the swapped-in view is a different backdrop under the fixed nav — re-run
         // the contrast check so the nav text/pin/toggle-label recolour to match.
@@ -8043,7 +7556,7 @@
         // frames after the class swap, so a single tick can sample the old snapshot).
         [0, 90, 320, 650].forEach(t => setTimeout(() => window.updateNavContrast?.(), t));
         // scroll to top after the section swap settles (defeat scroll-anchoring)
-        if (isAbout || isPlayground || isHatcha || isFireflut || isExistence || isJumpable) {
+        if (isAbout || isHatcha || isFireflut || isExistence || isJumpable) {
           // behavior:'instant' is REQUIRED — the page sets scroll-behavior:smooth, so a bare
           // scrollTo animates the whole way down. Coming off a case study's read-next panel
           // that's a ~1.8s crawl from y≈20900 to 0, and the incoming deck renders every
@@ -8070,17 +7583,16 @@
       // image via the View Transitions API (names set in the #hatcha-view CSS).
       // Other route changes, unsupported browsers, and reduced-motion users
       // keep the instant swap.
-      // ── Curtain page transition: Home ⇄ About ⇄ Playground. Two panes close
+      // ── Curtain page transition: Home ⇄ About. Two panes close
       // to cover the outgoing page, applyAboutRoute swaps the route behind them,
       // then they open (top up / bottom down) revealing the new page while its
       // content fades in. Case studies keep their tile→hero View-Transition morph;
       // reduced-motion keeps the instant swap. ──
       const curtain = document.getElementById('route-curtain');
-      const HEAVY_VIEW = { about: 'about-view', playground: 'playground-view' };
+      const HEAVY_VIEW = { about: 'about-view' };
 
       function routeBucket(hash) {
         if (hash === '#about') return 'about';
-        if (hash === '#playground') return 'playground';
         if (hash === '#hatcha') return 'hatcha';
         if (hash === '#fireflut') return 'fireflut';
         if (hash === '#existence') return 'existence';
@@ -8298,7 +7810,7 @@
         const a = e.target.closest?.('a[href]');
         if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
         const href = a.getAttribute('href');
-        if (route.P2H[href]) {                     // /about, /playground, /work/*
+        if (route.P2H[href]) {                     // /about, /work/*
           e.preventDefault();
           if (route.P2H[href] !== route.token()) route.go(route.P2H[href]);
         } else if (href && href.startsWith('/#') && route.token() && !location.hash) {
@@ -8313,7 +7825,6 @@
       // prerendered pages their own), this keeps the tab title honest on client-side navs
       const ROUTE_TITLES = {
         '#about': 'About Kripal Singh — Software Engineer - India',
-        '#playground': 'Playground — Design & Code Experiments | Kripal Singh',
         '#hatcha': 'Hatcha — Generative UI for Google I/O | Kripal Singh',
         '#fireflut': 'Fireflut — AI Telecom App for MWC | Kripal Singh',
         '#existence': 'Existence — Time Intelligence App | Zainab Kabira',
@@ -8372,18 +7883,14 @@
         }
       });
 
-      // Pac-Man loader on the heavy, instant-swap views: Playground (WebGL canvas)
-      // and About (~30MB of photos). Registered after the router's own hashchange
-      // handler, so applyAboutRoute has already un-hidden the view (same synchronous
-      // event dispatch, before paint) — the loader then covers it while its images
-      // decode. Skipped when the curtain ran this nav (it owns the decode hold), and
-      // left to run for reduced-motion / re-entrant instant swaps. Case studies are
-      // left to their tile→hero View Transition morph rather than an overlay.
+      // Pac-Man loader on the heavy, instant-swap About view. Registered after the
+      // router's own hashchange handler, so applyAboutRoute has already un-hidden the view
+      // (same synchronous event dispatch, before paint) — the loader then covers it while
+      // its images decode. Skipped when the curtain ran this nav (it owns the decode hold),
+      // and left to run for reduced-motion / re-entrant instant swaps.
       window.addEventListener('hashchange', () => {
         if (curtainHandled) return;
-        const HEAVY = { '#about': 'about-view', '#playground': 'playground-view' };
-        const id = HEAVY[route.token()];
-        if (id) window.pageLoader?.showForView(id);
+        if (route.token() === '#about') window.pageLoader?.showForView('about-view');
       });
 
       // Hidden-view videos ship WITHOUT the autoplay attribute — Chrome starts
@@ -8416,20 +7923,18 @@
         });
       })();
 
-      // Pre-decode the heavy views' imagery so the first Home→About /
-      // Home→Playground hop doesn't pay a paint stall (which would make that
-      // curtain dwell longer than the others). Decoding a hidden (display:none)
+      // Pre-decode the heavy views' imagery so the first Home→About hop doesn't
+      // pay a paint stall (which would make that curtain dwell longer than the
+      // others). Decoding a hidden (display:none)
       // view's images is fine — it warms the decode cache without rendering them.
       // Fired on the first hover/focus/touch of an internal link (navigation
       // intent), NOT at idle: the idle version re-fetched the hidden views'
       // lazy-loaded images during initial load, defeating the deferral.
       function prewarmHeavyViews() {
-        ['about-view', 'playground-view'].forEach(id => {
-          const v = document.getElementById(id);
-          if (!v) return;
-          Array.from(v.querySelectorAll('img')).slice(0, 10).forEach(img => {
-            if (img.decode) img.decode().catch(() => {});
-          });
+        const v = document.getElementById('about-view');
+        if (!v) return;
+        Array.from(v.querySelectorAll('img')).slice(0, 10).forEach(img => {
+          if (img.decode) img.decode().catch(() => {});
         });
       }
       let prewarmed = false;
@@ -10328,10 +9833,9 @@
         // of re-running the whole route swap (which double-fired the synthetic
         // resize remeasure and a second batch of contrast timers at every load)
         const isAbout = route.token() === '#about';
-        const isPlayground = route.token() === '#playground';
         document.querySelectorAll('.nav-link, .menu-link').forEach(l => {
           const href = l.getAttribute('href') || '';
-          l.classList.toggle('active', (isAbout && (href.endsWith('#about') || href.endsWith('/about'))) ||                                       (isPlayground && (href.endsWith('#playground') || href.endsWith('/playground'))));
+          l.classList.toggle('active', isAbout && (href.endsWith('#about') || href.endsWith('/about')));
         });
         [0, 320].forEach(t => setTimeout(() => window.updateNavContrast?.(), t));
         const avatar = document.querySelector('.nav-avatar');
@@ -11902,252 +11406,6 @@
         }
         wasNight = night;
       }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    })();
-
-    /* ── playground: 3D coverflow carousel. Cards sit on a rotating ring —
-       the centred card is upright and playing, neighbours recede in Z, rotate
-       away and dim. Drag / wheel / ← → to rotate; click the centre card (or
-       "Open full screen") to expand into a lightbox. Replaces the old infinite
-       draggable warping grid. ── */
-    (function () {
-      var view  = document.getElementById('playground-view');
-      var stage = document.getElementById('pgf-stage');
-      var track = document.getElementById('pgf-track');
-      if (!view || !stage || !track) return;
-
-      var DATA = [
-        { src:'/assets/playground/pg-fitflow-card.mp4',      type:'video', title:'Membership Card',   tool:'Spline · 2024',  desc:'Built for a FlutterFlow vignette, showcased at the FlutterFlow Developer Conference 2024.' },
-        { src:'/assets/playground/pg-burger.mp4',            type:'video', title:'Exploding Burger',   tool:'Blender · 2024', desc:'A playful deconstructed burger crafted for a circular carousel vignette in the Flutter Animate showcase.' },
-        { src:'/assets/playground/pg-neon-factory.mp4',      type:'video', title:'G-Land',             tool:'Spline · 2024',  desc:'An interactive island reimagining the gskinner workspace and workflow as an explorable digital world.' },
-        { src:'/assets/playground/pg-digital-innovators.mp4',type:'video', title:'Digital Innovators', tool:'Spline · 2023',  desc:'A scattering-pixel experiment dissolving form into motion and light.' },
-        { src:'/assets/playground/pg-gradient-sphere.mp4',   type:'video', title:'Dispersion',         tool:'Spline · 2024', desc:'Exploring gradient blends and prismatic color through dispersion effects.' },
-        { src:'/assets/playground/pg-desk-frame.mp4',        type:'video', title:'The Frame',          tool:'Blender · 2023', desc:'A custom-designed and 3D-printed frame created for a gskinner company offsite.' },
-        { src:'/assets/playground/pg-light-streaks.mp4',     type:'video', title:'Light Streaks',      tool:'Blender · 2023', desc:'A thunder-inspired experiment capturing energy through streaking light and motion.' },
-        { src:'/assets/playground/pg-distopia.mp4',          type:'video', title:'Dystopian City',     tool:'Blender · 2024',  desc:'A moody urban experiment envisioning a fractured, futuristic skyline.' },
-        { src:'/assets/playground/pg-donut.png',             type:'img',   title:'Realistic Donut',    tool:'Blender · 2023', desc:'A study in texture, lighting, and realism — rendered down to the last sprinkle.' },
-        { src:'/assets/playground/pg-dungeon.mp4',           type:'video', title:'Dungeons & Dragons', tool:'Blender · 2023',  desc:'An interactive build bringing a tabletop fantasy world to life in 3D.' }
-      ];
-      var N = DATA.length;
-      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var mod = function (a, b) { return ((a % b) + b) % b; };
-      function pad(n) { return n < 10 ? '0' + n : '' + n; }
-      function posterFor(d) { return d.type === 'img' ? d.src : d.src.replace('/playground/', '/playground/posters/').replace(/\.mp4$/, '.jpg'); }
-      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-
-      var active = 0;
-
-      /* ── build cards ── */
-      var cards = DATA.map(function (d, i) {
-        var card = document.createElement('div');
-        card.className = 'pgf-card';
-        card.setAttribute('role', 'button');
-        card.setAttribute('aria-label', d.title + ' — open full screen');
-        card.setAttribute('tabindex', '-1');
-        var poster = posterFor(d);
-        var media = d.type === 'video'
-          ? '<video muted loop playsinline preload="none" poster="' + esc(poster) + '"><source data-src="' + esc(d.src) + '" type="video/mp4"></video>'
-          : '<img src="' + esc(d.src) + '" alt="' + esc(d.title) + '" loading="lazy">';
-        card.innerHTML =
-          '<div class="pgf-card-media">' + media + '</div>' +
-          '<div class="pgf-card-vhs"></div>' +
-          '<span class="pgf-card-expand" aria-hidden="true">⤢<i>Open</i></span>';
-        track.appendChild(card);
-        return card;
-      });
-
-      /* ── coverflow layout ── */
-      function layout() {
-        var isMobile = innerWidth < 620;
-        var spread  = isMobile ? 60 : 54;   // % translateX per step
-        var depth   = isMobile ? 250 : 300; // px translateZ per step
-        var rot     = isMobile ? 32 : 38;   // deg rotateY per step
-        var visible = isMobile ? 1 : 2;     // neighbours shown each side
-
-        cards.forEach(function (card, i) {
-          var off = i - active;
-          if (off >  N / 2) off -= N;       // wrap to shortest path → continuous ring
-          if (off < -N / 2) off += N;
-          var abs = Math.abs(off);
-          var dir = off < 0 ? -1 : (off > 0 ? 1 : 0);
-
-          if (abs > visible) {
-            card.style.opacity = '0';
-            card.style.pointerEvents = 'none';
-            card.style.transform =
-              'translate3d(' + (dir * spread * (visible + 1)) + '%,0,' + (-depth * (visible + 1)) + 'px) rotateY(' + (-dir * rot) + 'deg) scale(.5)';
-            return;
-          }
-          var scale = 1 - abs * (isMobile ? 0.16 : 0.14);
-          var opacity = abs === 0 ? 1 : (abs === 1 ? 0.55 : 0.22);
-          card.style.opacity = String(opacity);
-          card.style.pointerEvents = 'auto';
-          card.style.zIndex = String(100 - abs);
-          card.style.transform =
-            'translate3d(' + (off * spread) + '%,0,' + (-abs * depth) + 'px) rotateY(' + (-off * rot) + 'deg) scale(' + scale + ')';
-          card.classList.toggle('is-active', off === 0);
-          card.setAttribute('tabindex', off === 0 ? '0' : '-1');
-        });
-        updateActiveMedia();
-        updateCaption();
-      }
-
-      /* ── only the centred clip plays ── */
-      function updateActiveMedia() {
-        cards.forEach(function (card, i) {
-          var video = card.querySelector('video');
-          if (!video) return;
-          if (i === active && !document.hidden && route.token() === '#playground') {
-            var src = video.querySelector('source');
-            if (src && !src.src) { src.src = src.dataset.src; video.load(); }
-            if (!reduce) { var q = video.play(); if (q && q.catch) q.catch(function () {}); }
-          } else {
-            try { video.pause(); } catch (e) {}
-          }
-        });
-      }
-
-      /* ── caption ── */
-      var cap      = document.getElementById('pgf-caption');
-      var capIndex = document.getElementById('pgf-cap-index');
-      var capTags  = document.getElementById('pgf-cap-tags');
-      var capTitle = document.getElementById('pgf-cap-title');
-      var capDesc  = document.getElementById('pgf-cap-desc');
-      function updateCaption() {
-        var d = DATA[active];
-        cap.classList.add('swap');
-        setTimeout(function () {
-          capIndex.textContent = pad(active + 1) + ' / ' + pad(N);
-          capTags.textContent  = d.tool;
-          capTitle.textContent = d.title;
-          capDesc.textContent  = d.desc;
-          cap.classList.remove('swap');
-        }, 180);
-      }
-
-      /* ── navigation ── */
-      function go(i) { active = mod(i, N); layout(); }
-      function next() { go(active + 1); }
-      function prev() { go(active - 1); }
-
-      document.getElementById('pgf-next').addEventListener('click', next);
-      document.getElementById('pgf-prev').addEventListener('click', prev);
-
-      // card click → open (if centred) or rotate to it, unless it was a drag
-      cards.forEach(function (card, i) {
-        card.addEventListener('click', function () {
-          if (dragMoved) return;
-          if (i === active) openLightbox(i); else go(i);
-        });
-        card.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); }
-        });
-      });
-
-      /* keyboard rotate (only on the playground route, lightbox closed) */
-      window.addEventListener('keydown', function (e) {
-        if (route.token() !== '#playground') return;
-        if (lb.classList.contains('open')) return;
-        if (e.key === 'ArrowRight') next();
-        if (e.key === 'ArrowLeft')  prev();
-      });
-
-      /* ── drag / swipe — axis-locked. Horizontal rotates the ring; a plain
-         tap still opens the lightbox (no pointer capture). ── */
-      var dragging = false, startX = 0, startY = 0, axis = null, dragMoved = false;
-      stage.addEventListener('pointerdown', function (e) {
-        if (e.target.closest('.pgf-arrow')) return;   // let arrow buttons click
-        dragging = true; startX = e.clientX; startY = e.clientY; axis = null; dragMoved = false;
-      });
-      stage.addEventListener('pointermove', function (e) {
-        if (!dragging) return;
-        var dx = e.clientX - startX, dy = e.clientY - startY;
-        if (!axis) {
-          if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-          axis = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
-        }
-        if (axis === 'x' && Math.abs(dx) > 50) { dragMoved = true; if (dx < 0) next(); else prev(); startX = e.clientX; }
-      });
-      function endDrag() { dragging = false; axis = null; setTimeout(function () { dragMoved = false; }, 50); }
-      stage.addEventListener('pointerup', endDrag);
-      stage.addEventListener('pointercancel', endDrag);
-      stage.addEventListener('pointerleave', endDrag);
-
-      /* ── wheel over the stage → rotate (endless loop, page never scrolls) ── */
-      var wheelLock = false;
-      stage.addEventListener('wheel', function (e) {
-        var dx = e.deltaX, dy = e.deltaY;
-        var dir = (Math.abs(dx) > Math.abs(dy)) ? (dx < 0 ? -1 : 1) : (dy < 0 ? -1 : 1);
-        if (dir === 0) return;
-        e.preventDefault();
-        if (wheelLock) return;
-        wheelLock = true;
-        if (dir > 0) next(); else prev();
-        setTimeout(function () { wheelLock = false; }, 420);
-      }, { passive: false });
-
-      /* ── lightbox ── */
-      var lb      = document.getElementById('pgf-lightbox');
-      var lbStage = document.getElementById('pgf-lb-stage');
-      var lbIndex = document.getElementById('pgf-lb-index');
-      var lbTitle = document.getElementById('pgf-lb-title');
-      var lbDesc  = document.getElementById('pgf-lb-desc');
-      var lbTags  = document.getElementById('pgf-lb-tags');
-      var lbCurrent = 0;
-
-      function renderLightbox(i) {
-        var d = DATA[i]; lbCurrent = i;
-        // native controls (pause / skip / scrub) on desktop only — on phones they
-        // overlay the clip, so there we play muted+looping with no chrome.
-        var isMobile = matchMedia('(max-width: 620px)').matches;
-        var vAttrs = isMobile ? 'muted autoplay loop playsinline' : 'controls autoplay loop playsinline';
-        lbStage.innerHTML = d.type === 'video'
-          ? '<video src="' + esc(d.src) + '" poster="' + esc(posterFor(d)) + '" ' + vAttrs + '></video>'
-          : '<img src="' + esc(d.src) + '" alt="' + esc(d.title) + '">';
-        lbIndex.textContent = pad(i + 1) + ' / ' + pad(N);
-        lbTitle.textContent = d.title;
-        lbDesc.textContent  = d.desc;
-        lbTags.textContent  = d.tool;
-      }
-      function openLightbox(i) {
-        go(i);
-        renderLightbox(i);
-        lb.classList.add('open');
-        lb.setAttribute('aria-hidden', 'false');
-        document.getElementById('pgf-lb-close').focus();
-      }
-      function closeLightbox() {
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden', 'true');
-        lbStage.innerHTML = '';
-        updateActiveMedia();
-      }
-      function lbGo(step) { var i = mod(lbCurrent + step, N); go(i); renderLightbox(i); }
-      document.getElementById('pgf-lb-close').addEventListener('click', closeLightbox);
-      document.getElementById('pgf-lb-next').addEventListener('click', function () { lbGo(1); });
-      document.getElementById('pgf-lb-prev').addEventListener('click', function () { lbGo(-1); });
-      lb.addEventListener('click', function (e) { if (e.target === lb) closeLightbox(); });
-      window.addEventListener('keydown', function (e) {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape')     closeLightbox();
-        if (e.key === 'ArrowRight') lbGo(1);
-        if (e.key === 'ArrowLeft')  lbGo(-1);
-      });
-
-      /* ── lifecycle — play/pause the centred clip on route + tab-visibility ── */
-      function start() { active = 0; layout(); }
-      function stop() {
-        closeLightbox();
-        cards.forEach(function (card) { var v = card.querySelector('video'); if (v) { try { v.pause(); } catch (e) {} } });
-      }
-      window.addEventListener('hashchange', function () { if (route.token() === '#playground') start(); else stop(); });
-      window.addEventListener('resize', function () { clearTimeout(window._pgfRz); window._pgfRz = setTimeout(layout, 120); });
-      document.addEventListener('visibilitychange', function () {
-        if (document.hidden) stop();
-        else if (route.token() === '#playground') updateActiveMedia();
-      });
-
-      layout();
-      if (route.token() === '#playground') start();
     })();
 
   </script>
